@@ -1,0 +1,102 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <script>
+        function toggleActive(element) {
+            // Remove active class from all navigation links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(function (link) {
+                link.classList.remove('active');
+            });
+
+            // Add active class to the clicked navigation link
+            element.classList.add('active');
+        }
+    </script>
+</head>
+<body>
+<div class="row">
+    <div class="col-2">
+        <div class="container-fluid ">
+            <div class="row">
+                <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                    <h3>Terminal 1916</h3>
+
+                    <div class="position-sticky">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="/" onclick="toggleActive(this)">Home</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="site-enumeration-engine" onclick="toggleActive(this)">Site
+                                    Enumeration Engine</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="thread-enumeration-engine" onclick="toggleActive(this)">Thread
+                                    Enumeration Engine</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="crypto-transaction-enumeration" onclick="toggleActive(this)">C-Transaction
+                                    Enumeration Engine</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="url-collector" onclick="togglActive(this)">URL Collector</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="onion-links" onclick="toggleActive(this)">Onion Links</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="enumerated-websites" onclick="toggleActive(this)">Enumerated
+                                    Websites</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="threat-search" onclick="toggleActive(this)">Threat
+                                    Search</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="darkweb-users" onclick="toggleActive(this)">Darkweb Users</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="test-page" onclick="toggleActive(this)">Test Page</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Main Content</h1>
+                    </div>
+                    <p>This is the main content area.</p>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-10">
+        <div class="container-fluid">
+            {% block content %}
+
+            {% endblock %}
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Bootstrap JS -->
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

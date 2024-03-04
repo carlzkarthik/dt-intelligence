@@ -1,0 +1,57 @@
+{% extends "master.html" %}
+
+{% block title %}
+    Thread Enumeration Engine
+{% endblock %}
+
+{% block content %}
+    {% csrf_token %}
+
+    <style>
+        .status {
+            visibility: hidden;
+            margin-top: 20px;
+        }
+
+        #run-engine {
+            margin-top: 20px;
+        }
+    </style>
+    <h1>Thread Enumeration Engine</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <button id="run-engine" class="btn btn-outline-danger">Run Thread Enumeration on All Unvisited Threads
+    </button>
+
+    <h3 class="status">
+        Thread Enumeration Started
+    </h3>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#run-engine').click(function () {
+                status_message = $(".status")
+                $.ajax({
+                    url: 'unvisited-thread-enum',
+                    type: 'POST',
+                    beforeSend: function (xhr, settings) {
+                        $(".status").css("visibility", "visible");
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}")
+                    },
+                    success: function (data) {
+                        $(".status").text("Thread Enumeration Complete");
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                })
+            })
+        })
+    </script>
+{% endblock %}
+

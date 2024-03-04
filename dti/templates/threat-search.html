@@ -1,0 +1,103 @@
+{% extends "master.html" %}
+
+{% block title %}
+    Threat Search
+{% endblock %}
+
+{% block content %}
+    <style>
+        h4 {
+            font-weight: bold;
+            color: red;
+        }
+        .thread-box {
+            margin: 10px;
+            padding: 20px;
+            border-radius: 5px;
+            border: 2px solid #000;
+        }
+
+        .t-title {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .t-desc {
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .t-url {
+            font-weight: bold;
+        }
+    </style>
+    <h1>Threat Search</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <div>
+        <h3>Threads Found:</h3>
+
+        {% if  threat_data.threads_title != "" %}
+            <h4>Title Search</h4>
+            {% for data in threat_data.threads_title %}
+                <div class="thread-box">
+                    <p class="t-title">{{ data.thread_title }}</p>
+                    <b>
+                        <i>
+                            <span>Published on: {{ data.thread_published }} by {{ data.thread_author }}</span>
+                        </i>
+                    </b>
+
+                    <p class="t-desc">{{ data.thread_desc }}</p>
+                    <p class="t-url"><a href=" {{ data.thread_url }} }}">{{ data.thread_url }}</a></p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Nothing found for the keyword</p>
+        {% endif %}
+
+
+
+
+
+        {% if threat_data.threads_description != "" %}
+            <h4>Description Search</h4>
+            {% for data in threat_data.threads_description %}
+                <div class="thread-box">
+                    <p class="t-title">{{ data.thread_title }}</p>
+                    <b>
+                        <i>
+                            <span>Published on: {{ data.thread_published }} by {{ data.thread_author }}</span>
+                        </i>
+                    </b>
+
+                    <p class="t-desc">{{ data.thread_desc }}</p>
+                    <p class="t-url"><a href=" {{ data.thread_url }} }}">{{ data.thread_url }}</a></p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Nothing found for the keyword</p>
+        {% endif %}
+
+
+
+        {% if not threat_data.threads_comment_search %}
+            <p>Nothing found for the keyword</p>
+
+        {% else %}
+            <h4>Comments Search</h4>
+            {% for data in threat_data.threads_comment_search %}
+                <div class="thread-box">
+                    <h5>{{ data.thread_comment }}</h5>
+
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}
+

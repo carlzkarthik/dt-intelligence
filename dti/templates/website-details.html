@@ -1,0 +1,92 @@
+{% extends "master.html" %}
+
+{% block title %}
+    Homepage
+{% endblock %}
+
+{% block content %}
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .sidebar {
+            background-color: #007bff;
+            color: #fff;
+            height: 100vh;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: bold;
+            border-bottom: none;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .card-body {
+            background-color: #fff;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .btn-back {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .btn-back:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <div class="container-fluid">
+
+        <!-- Main Content -->
+        <div class="col-md-9 main-content">
+            <div class="card">
+                <div class="card-header">
+                    Website Details
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="website-name">URL:</label>
+                        <input type="text" id="website-name" class="form-control" readonly value="{{ website.url }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="website-url">Title:</label>
+                        <input type="text" id="website-url" class="form-control" readonly
+                               value="{{ website.title }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Navigation Links:</label>
+                        <textarea id="description" class="form-control" rows="5" readonly>
+                            website.nav_ul_li
+                        </textarea>
+                    </div>
+                    <button class="btn btn-back" onclick="goBack()">Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+{% endblock %}

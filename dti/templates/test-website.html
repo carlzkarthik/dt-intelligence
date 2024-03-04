@@ -1,0 +1,17 @@
+{% extends "master.html" %}
+
+{% block title %}
+    URL Collector
+{% endblock %}
+
+{% block content %}
+
+    <h1>URL Collector</h1>
+    <div class="mt-5">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{% endblock %}

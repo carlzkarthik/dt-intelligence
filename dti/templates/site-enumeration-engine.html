@@ -1,0 +1,57 @@
+{% extends "master.html" %}
+
+{% block title %}
+    Site Enumeration Engine
+{% endblock %}
+
+{% block content %}
+    {% csrf_token %}
+
+    <style>
+        .status {
+            visibility: hidden;
+            margin-top: 20px;
+        }
+
+        #run-engine {
+            margin-top: 20px;
+        }
+    </style>
+    <h1>Site Enumeration Engine</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <button id="run-engine" class="btn btn-outline-danger">Run Site Enumeration on All Unvisited Websites
+    </button>
+
+    <h3 class="status">
+        Started Enumeration of Websites
+    </h3>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#run-engine').click(function () {
+                status_message = $(".status")
+                $.ajax({
+                    url: 'unvisited-site-enum',
+                    type: 'POST',
+                    beforeSend: function (xhr, settings) {
+                        $(".status").css("visibility", "visible");
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}")
+                    },
+                    success: function (data) {
+                        $(".status").text("Site Enumeration Complete");
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                })
+            })
+        })
+    </script>
+
+{% endblock %}
+

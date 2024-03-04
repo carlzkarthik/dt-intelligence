@@ -1,0 +1,23 @@
+{% extends "master.html" %}
+
+{% block title %}
+    Crypto Transaction Enumeration
+{% endblock %}
+
+{% block content %}
+    <h1>Crypto Transaction Enumeration</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <button onclick="open_url('http://127.0.0.1:8000/site-enumeration-engine')" class="btn btn-outline-danger">Run Site
+        Enumeration Engine on Random URLs
+    </button>
+    <script>
+        function open_url(url) {
+            window.open(url)
+        }
+    </script>
+{% endblock %}
+

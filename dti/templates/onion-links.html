@@ -1,0 +1,61 @@
+{% extends "master.html" %}
+
+{% block title %}
+    Onion Links
+{% endblock %}
+
+{% block content %}
+    <h1> Onion Links</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>URL</th>
+            <th>Source Name</th>
+            <th>Source URL</th>
+            <th>Date Collected</th>
+            <th>Visited</th>
+            <th>Keyword Searched</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in page_obj %}
+            <tr>
+                <td>{{ item.url }}</td>
+                <td>{{ item.source_name }}</td>
+                <td>{{ item.source_url }}</td>
+                <td>{{ item.time_collected }}</td>
+                <td>{{ item.visited }}</td>
+                <td>{{ item.keyword_searched }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination justify-content-center">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+                <li class="page-item"><a class="page-link"
+                                         href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }} <span
+                            class="sr-only">(current)</span></span></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last
+                    &raquo;</a></li>
+            {% endif %}
+        </ul>
+    </div>
+
+
+{% endblock %}

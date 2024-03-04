@@ -1,0 +1,30 @@
+{% extends "master.html" %}
+
+{% block title %}
+    Homepage
+{% endblock %}
+
+{% block content %}
+    <style>
+        .dashboard {
+            margin: 0;
+        }
+
+        .onion-link {
+            margin: 20px 0px;
+            padding: 20px;
+            width: 50%;
+            background-color: #0056b3;
+            border-radius: 5px;
+            color: wheat;
+        }
+
+    </style>
+
+    <div class="container-fluid dashboard">
+        <div class="onion-link">
+            <h2>Total Onion Links Collected</h2>
+            <span></span>
+        </div>
+    </div>
+{% endblock %}
