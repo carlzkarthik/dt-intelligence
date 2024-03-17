@@ -5,6 +5,10 @@ from .utils.print_utils import *
 
 
 class OnionLinks(models.Model):
+    """
+    Database model for onion link queue
+    This model is equivalent to Tables in MySql database
+    """
     url = models.URLField(primary_key=True)
     source_name = models.CharField(max_length=100)
     source_url = models.URLField()
@@ -21,6 +25,11 @@ class OnionLinks(models.Model):
 
 
 class EnumeratedWebsites(models.Model):
+
+    """
+    Database model for enumerated websites
+    This model is equivalent to Tables in MySql database
+    """
     website_id = models.IntegerField(unique=True, null=True, blank=False)
     url = models.URLField(primary_key=True)
     title = models.TextField(blank=True, null=True)
@@ -50,6 +59,10 @@ class EnumeratedWebsites(models.Model):
 
 
 class Threads(models.Model):
+    """
+    Database model for dark web forum threads
+    This model is equivalent to Tables in MySql database
+    """
     thread_url = models.URLField(primary_key=True)
     thread_title = models.TextField(blank=True, null=True)
     thread_desc = models.TextField(blank=True, null=True)
@@ -59,6 +72,10 @@ class Threads(models.Model):
 
 
 class ThreadComments(models.Model):
+    """
+    Database model for dark web forum thread comments
+    This model is equivalent to Tables in MySql database
+    """
     thread_url = models.ForeignKey(Threads, on_delete=models.SET_NULL, null=True)
     comment_text = models.TextField(blank=False, null=False)
     comment_author = models.TextField(blank=False, null=False)
@@ -67,6 +84,10 @@ class ThreadComments(models.Model):
 
 
 class DarkwebUsers(models.Model):
+    """
+    Database model for dark web users
+    This model is equivalent to Tables in MySql database
+    """
     user_name = models.CharField(max_length=100, primary_key=True)
     user_email = models.TextField(blank=True, null=True)
     user_phone = models.TextField(blank=True, null=True)
@@ -77,6 +98,10 @@ class DarkwebUsers(models.Model):
 
 
 class CryptocurrencyTransaction(models.Model):
+    """
+    Database model for crypto currency transactions
+    This model is equivalent to Tables in MySql database
+    """
     sender = models.CharField(max_length=100, ),
     receiver = models.CharField(max_length=100, )
     amount_in_crypto = models.FloatField()
@@ -86,11 +111,20 @@ class CryptocurrencyTransaction(models.Model):
 
 
 class CryptoAddress(models.Model):
+    """
+    Database model for crypto address
+    This model is equivalent to Tables in MySQL database
+    """
     crypto_address = models.CharField(max_length=100, primary_key=True)
     associated_website = models.ForeignKey(EnumeratedWebsites, on_delete=models.CASCADE, )
 
 
 class ImageFiles(models.Model):
+    """
+    Database model for image file
+    This table holds the EXIF data for image files
+    This model is equivalent to Tables in MySql database
+    """
     img_name = models.TextField()
     img_path = models.CharField(max_length=1024)
     img_url = models.URLField()
@@ -109,6 +143,10 @@ class ImageFiles(models.Model):
 
 
 class UserGoogleDork(models.Model):
+    """
+    Database model for google dork results
+    This model is equivalent to Tables in MySQL
+    """
     user_name = models.ForeignKey(DarkwebUsers, on_delete=models.SET_NULL, null=True)
     result_title = models.TextField()
     result_description = models.TextField()

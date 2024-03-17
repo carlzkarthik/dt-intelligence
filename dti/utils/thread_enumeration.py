@@ -12,6 +12,11 @@ class ThreadEnumeration:
         self.thread_link_pattern = ""
 
     def get_webcontent(self, url):
+        """
+        Get web contents of the thread link
+        :param url: url of the thread
+        :return: web contents of the thread
+        """
         web_content = get_web_content(url)
         return web_content
 
@@ -24,6 +29,11 @@ class BreachForum(ThreadEnumeration):
         self.thread_link_pattern = "Thread-[\-\w]+"
 
     def enumerate(self, thread_url):
+        """
+        Extract all the relevant information about forum thread
+        :param thread_url: url of the thread
+        :return: None
+        """
         global thread
         print_info(f"Running Breach Forum Thread Enumeration")
         print_info(f"Enumerating Thread ---> {thread_url}")
@@ -69,6 +79,13 @@ class BreachForum(ThreadEnumeration):
             first_page = False
 
     def save_thread_details(self, thread_url, bs4_content):
+        """
+        Save thread details to database
+        Extract relevant information from the bs4 content
+        :param thread_url: URL of the thread
+        :param bs4_content: BeautifulSoup object
+        :return: None
+        """
 
         # Define the input and output formats
         input_format = "%A %B %d, %Y at %I:%M %p"
@@ -97,6 +114,12 @@ class BreachForum(ThreadEnumeration):
             return -1
 
     def save_comments(self, thread_url, comments):
+        """
+        Save comments to the database
+        :param thread_url: URL of the thread
+        :param comments: List of comments
+        :return: None
+        """
         # Define the input and output formats
         input_format = "%m-%d-%Y, %I:%M %p"
         output_format = "%Y-%m-%d %H:%M"
@@ -120,6 +143,11 @@ class BreachForum(ThreadEnumeration):
             c.save()
 
     def get_thread_links(self, bs4_content):
+        """
+        Get thread link from web content using BeautifulSoup
+        :param bs4_content: web content (BeautifulSoup object)
+        :return: List of thread links
+        """
         matches = set()
         a_tags = bs4_content.find_all('a')
         for a in a_tags:
@@ -131,6 +159,11 @@ class BreachForum(ThreadEnumeration):
         return matches
 
     def save_thread_link_to_db(self, thread_links):
+        """
+        Save thread links found in the web content into the database
+        :param thread_links: List of thread links found in the web content
+        :return: None
+        """
         print_info(f"Saving External Thread Links")
         for thread_link in thread_links:
             thread_link = f"{self.thread_base_url}{thread_link}"

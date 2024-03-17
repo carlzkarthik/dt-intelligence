@@ -41,6 +41,10 @@ class GoogleDork:
         self.base_url = f'https://www.google.com/search?q=%22{self.user_name}%22+%26+(%22dark+web%22+|+%22darkweb%22+|+%22deep+web%22+|+%22deepweb%22)+%26+(%22Breach+Forum%22+|+%22Breachforum%22)'
 
     def dork_it(self):
+        """
+        Enumerate dark web user using Google Dork
+
+        """
         try:
             options = Options()
             options.add_argument('--headless')

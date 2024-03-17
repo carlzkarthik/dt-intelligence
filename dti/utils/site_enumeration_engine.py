@@ -1,10 +1,15 @@
 from .utils import *
 from ..models import *
 from unicodedata import normalize
-from .thread_enumeration import BreachForum
+import threading
 
 
 def enumerate_website(url):
+    """
+    Extract all the relevant information from a website and store them in the database
+    :param url: URL of the website
+    :return: None
+    """
     print_info(f"Enumerating === {url}")
     if not EnumeratedWebsites.objects.filter(url=url).exists():
         web_content = get_web_content(url)
@@ -72,11 +77,16 @@ def enumerate_website(url):
 
             nav_ul_li_texts = [li_tag.text.strip() for li_tag in bs4_contents.select('nav ul li') if
                                li_tag.text.strip() != ""]
+
             onion_links = get_onion_links(web_content)
+
             update_onion_link_queue(onion_links)
+
             emails = get_emails(web_content)
+
             print_info(f"Title of the page is {colors.LIGHT_YELLOW}{title}{colors.END}")
 
+            # Construct EnumeratedWebsites object using above data
             website = EnumeratedWebsites(
                 url=url,
                 title=title,
@@ -106,7 +116,11 @@ def enumerate_website(url):
             )
 
             print_info(f"Saving website data to database {url}")
+
+            # Save the data to database
             website.save()
+
+            # Set the visited = 1 for url in onion link queue
             data = OnionLinks.objects.get(url=url)
             data.visited = 1
             data.save()
@@ -119,13 +133,18 @@ def enumerate_website(url):
 
 
 def enumerate_unvisited_websites():
+    """
+    Enumerates unvisited websites
+    Uses separate thread to each website url
+    """
     olinks = OnionLinks.objects.filter(visited=0)
-    thread_count = 50
+    link_count = olinks.__len__()
+    thread_count = 10
     st = 0
     en = thread_count
-    while en < olinks.__len__():
-        threads = []
 
+    while link_count > 0:
+        threads = []
         for i in range(st, en):
             t = threading.Thread(target=enumerate_website, args=(olinks[i].url,))
             threads.append(t)
@@ -133,7 +152,11 @@ def enumerate_unvisited_websites():
         for t in threads:
             t.start()
 
+        for t in threads:
+            t.join()
+
         st += thread_count
         en += thread_count
+        link_count -= thread_count
 
     print_info("Website enumeration complete")

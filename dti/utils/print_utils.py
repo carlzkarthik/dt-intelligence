@@ -19,11 +19,28 @@ class colors:
     WHITE = '\033[97m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+
+    BRIGHT_YELLOW = '\033[93;1m'
+    BRIGHT_GREEN = '\033[92;1m'
+    BRIGHT_CYAN = '\033[96;1m'
+    BRIGHT_BLUE = '\033[94;1m'
+    BRIGHT_MAGENTA = '\033[95;1m'
+    BRIGHT_RED = '\033[91;1m'
+    BRIGHT_WHITE = '\033[97;1m'
+    BRIGHT_BLACK = '\033[90;1m'
+    BRIGHT_ORANGE = '\033[38;5;208m'
+    BRIGHT_PURPLE = '\033[38;5;141m'
+
     END = '\033[0m'
 
 
-def print_info(str):
-    print(f"{colors.LIGHT_CYAN}[----]{colors.END}", colors.LIGHT_CYAN + str + colors.END)
+def print_info(str, color=colors.LIGHT_GREEN):
+    print(f"{color}[ INFO ]{colors.END}", color + str + colors.END)
+
 
 def print_error(str):
-    print(f"{colors.LIGHT_RED}[******]{colors.END}", colors.LIGHT_RED + str + colors.END)
+    print(f"{colors.LIGHT_RED}[ ERROR ]{colors.END}", colors.LIGHT_RED + str + colors.END)
+
+
+def print_debug(str):
+    print(f"{colors.LIGHT_RED}[ DEBUG ]{colors.END}", colors.LIGHT_RED + str + colors.END)

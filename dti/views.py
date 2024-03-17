@@ -6,6 +6,8 @@ from .forms import *
 from .utils import thread_enumeration
 from django.core.paginator import Paginator
 
+import threading
+
 from .utils.url_collector import onion_url_collector
 from .utils.site_enumeration_engine import *
 from .utils.thread_enumeration import *
@@ -14,6 +16,9 @@ from .utils.user_enumeration import *
 
 
 def enumerate_user(request):
+    """
+    View Function to enumerate dark web users
+    """
     if request.method == 'POST':
         user_name = request.POST.get('user_name')
         success = user_enumeration(user_name)
@@ -25,11 +30,17 @@ def enumerate_user(request):
 
 
 def homepage(request):
+    """
+    View Function to display homepage
+    """
     template = loader.get_template('homepage.html')
     return HttpResponse(template.render())
 
 
 def site_enumeration_engine(request):
+    """
+    View Function to display site enumeration engine
+    """
     if request.method == 'POST':
         form = SiteEnumerationForm(request.POST)
         if form.is_valid():
@@ -44,18 +55,29 @@ def site_enumeration_engine(request):
 
 
 def unvisited_site_enum(request):
+    """
+    View Function to run site enumeration engine on unvisited sites
+    """
     if request.method == 'POST':
         status = enumerate_unvisited_websites()
         return JsonResponse({'result': status})
 
 
 def unvisited_thread_enum(request):
+    """
+    View Function to run thread enumeration engine on unvisited thread
+    """
     if request.method == 'POST':
         status = thread_enumerate()
         return JsonResponse({'result': status})
 
 
 def thread_enumeration_engine(request):
+    """
+    View Function to display thread enumeration engine
+    If the request is GET, it will display the thread enumeration engine
+    If the request is POST, it will run the thread enumeration engine dark web forums
+    """
     if request.method == 'POST':
         form = ThreadEnumerationForm(request.POST)
         if form.is_valid():
@@ -71,6 +93,9 @@ def thread_enumeration_engine(request):
 
 
 def crypto_transaction_enumeration(request):
+    """
+    View Function to display crypto transaction enumeration engine
+    """
     if request.method == 'POST':
         form = CryptoTransactionEnumeration(request.POST)
 
@@ -87,6 +112,9 @@ def crypto_transaction_enumeration(request):
 
 
 def url_collector(request):
+    """
+    View Function to display url collector page
+    """
     if request.method == 'POST':
         form = UrlCollectorForm(request.POST)
         if form.is_valid():
@@ -106,6 +134,9 @@ def url_collector(request):
 
 
 def onion_links(request):
+    """
+    View Function to display list of collected onion links
+    """
     data = OnionLinks.objects.all()
     paginator = Paginator(data, 20)
     page_number = request.GET.get('page')
@@ -114,12 +145,18 @@ def onion_links(request):
 
 
 def enumerated_websites(request):
+    """
+    View Function to display list of enumerated websites
+    """
     websites = EnumeratedWebsites.objects.all()
     context = {'websites': websites}
     return render(request, 'enumerated-website.html', context=context)
 
 
 def threat_search(request):
+    """
+    View Function to display threat searching page
+    """
     threat_data = ""
     if request.method == 'POST':
         form = ThreatSearchForm(request.POST)
@@ -135,12 +172,18 @@ def threat_search(request):
 
 
 def darkweb_users(request):
+    """
+    View Function to display list of darkweb users
+    """
     users = DarkwebUsers.objects.all()
     context = {'darkweb_users': users}
     return render(request, 'darkweb-users.html', context=context)
 
 
 def website_details(request, website_id):
+    """
+    View Function to display enumerated website details
+    """
     website = EnumeratedWebsites.objects.filter(website_id=website_id).first()
     context = {'website': website}
     return render(request, 'website-details.html', context=context)
