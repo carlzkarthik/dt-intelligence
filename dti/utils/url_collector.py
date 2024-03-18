@@ -32,19 +32,11 @@ def ahmia(keyword):
 
     links = get_onion_links(web_content)
 
-    for link in links:
-        ol = OnionLinks(url=link,
-                        source_name="Ahmia",
-                        source_url=url,
-                        visited=False,
-                        keyword_searched=keyword
-                        )
-        ol.save()
-        print_info(f"Saved --- {link}", color=colors.BRIGHT_GREEN)
-
-    print_info(f"Total number of links found = {links.__len__()}", colors.BRIGHT_YELLOW)
-
-    print_info("All the links saved to database successfully", color=colors.BRIGHT_YELLOW)
+    update_onion_link_queue(onion_links=links,
+                            src_name='Ahmia',
+                            src_url=url,
+                            visited=False,
+                            keyword_searched=keyword)
 
 
 def torch(keyword):

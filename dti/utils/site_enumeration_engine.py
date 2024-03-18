@@ -80,8 +80,6 @@ def enumerate_website(url):
 
             onion_links = get_onion_links(web_content)
 
-            update_onion_link_queue(onion_links)
-
             emails = get_emails(web_content)
 
             print_info(f"Title of the page is {colors.LIGHT_YELLOW}{title}{colors.END}")
@@ -125,6 +123,15 @@ def enumerate_website(url):
             data.visited = 1
             data.save()
 
+            if onion_links:
+                print_info(msg="Updating onion link queue")
+                update_onion_link_queue(onion_links=onion_links,
+                                        src_name=f"{title[0:10]}...",
+                                        src_url=url,
+                                        visited=False,
+                                        )
+
+
         else:
             print_error(f"Failed to enumerate websites")
 
@@ -137,7 +144,7 @@ def enumerate_unvisited_websites():
     Enumerates unvisited websites
     Uses separate thread to each website url
     """
-    olinks = OnionLinks.objects.filter(visited=0)
+    olinks = OnionLinks.objects.filter(visited=False)
     link_count = olinks.__len__()
     thread_count = 10
     st = 0

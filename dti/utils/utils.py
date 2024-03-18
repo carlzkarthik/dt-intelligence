@@ -5,12 +5,13 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver import Firefox
 from requests_tor import RequestsTor
 from .crypto_transaction import *
+from ..models import OnionLinks
 
 
 def connect_to_tor():
     """
     connect to TOR network
-    @return: session object
+    :return: session object
     """
     sess = requests.session()
     sess.proxies = {'http': 'socks5h://localhost:9050',
@@ -21,8 +22,8 @@ def connect_to_tor():
 def get_web_content(url):
     """
     Get HTML contents of a web page
-    @param url: URL of the web page
-    @return: HTML web content or -1 if an error occurs
+    :param url: URL of the web page
+    :return: HTML web content or -1 if an error occurs
     """
 
     print_info(f"Requesting web page {url}")
@@ -38,8 +39,8 @@ def get_web_content(url):
 def get_web_content_selenium(url):
     """
     Get HTML contents of a web page using selenium
-    @param url: URL of the web page
-    @return: HTML web content or -1 if an error occurs
+    :param url: URL of the web page
+    :return: HTML web content or -1 if an error occurs
     """
     from selenium.webdriver.common.proxy import Proxy, ProxyType
     proxy = Proxy({
@@ -68,8 +69,8 @@ def get_web_content_selenium(url):
 def get_emails(web_content):
     """
     Get emails from web page contents using regular expression
-    @param web_content: HTML web content
-    @return: List of email addresses
+    :param web_content: HTML web content
+    :return: List of email addresses
     """
     email_pattern = r'[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-z]+'
     matches = re.findall(email_pattern, web_content)
@@ -79,8 +80,8 @@ def get_emails(web_content):
 def get_onion_links(web_content):
     """
     Get onion links from web page contents using regular expression
-    @param web_content: HTML web content
-    @return: List of onion links
+    :param web_content: HTML web content
+    :return: List of onion links
     """
     onion_link_pattern = r'[htp\/\/:]{0,7}[a-z0-9]{16,56}\.onion\/*'
     matches = re.findall(onion_link_pattern, web_content)
@@ -96,15 +97,32 @@ def get_onion_links(web_content):
     return unique_urls
 
 
-def update_onion_link_queue(onion_links):
-
+def update_onion_link_queue(onion_links, src_name, src_url, visited=False, keyword_searched=None, ):
     """
     Update onion links queue
     If onion link already exists, do nothing else add it to queue(Database table)
-    @param onion_links: List of onion links
-    @return: None
+    :param onion_links: List of onion links
+    :param src_name: Name of the source where the links are found
+    :param src_url: URL of the source where the links are found
+    :param visited: Flag to indicate if the link is already visited
+    :param keyword_searched: Keyword searched on the search engine
+    :return: None
     """
-    pass
+
+    # Loop through all the links
+    for link in onion_links:
+        ol = OnionLinks(url=link,
+                        visited=visited,
+                        keyword_searched=keyword_searched,
+                        source_name=src_name,
+                        source_url=src_url)
+
+        if not OnionLinks.objects.filter(url=link, source_name=src_name):
+            ol.save()
+            print_info(f"Saved --- {link}", color=colors.BRIGHT_GREEN, info=f"INFO-{src_name}")
+
+    print_info(f"Total number of links found from {src_name} = {onion_links.__len__()}", colors.BRIGHT_YELLOW)
+    print_info("All the links saved to database successfully", color=colors.BRIGHT_YELLOW)
 
 def enumerate_crypto_address(address):
     print(address)

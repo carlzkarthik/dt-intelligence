@@ -34,13 +34,13 @@ class colors:
     END = '\033[0m'
 
 
-def print_info(str, color=colors.LIGHT_GREEN):
-    print(f"{color}[ INFO ]{colors.END}", color + str + colors.END)
+def print_info(msg, color=colors.LIGHT_GREEN, info="INFO"):
+    print(f"{color}[ {info} ]{colors.END}", color + msg + colors.END)
 
 
-def print_error(str):
-    print(f"{colors.LIGHT_RED}[ ERROR ]{colors.END}", colors.LIGHT_RED + str + colors.END)
+def print_error(msg, color=colors.LIGHT_RED, info="ERROR"):
+    print(f"{color}[ {info} ]{colors.END}", color + msg + colors.END)
 
 
-def print_debug(str):
-    print(f"{colors.LIGHT_RED}[ DEBUG ]{colors.END}", colors.LIGHT_RED + str + colors.END)
+def print_debug(msg, color=colors.LIGHT_RED, info="DEBUG"):
+    print(f"{colors}[ {info} ]{colors.END}", color + msg + colors.END)

@@ -8,12 +8,21 @@ class OnionLinks(models.Model):
     """
     Database model for onion link queue
     This model is equivalent to Tables in MySql database
+    --------------------------------------------------------
+    Params
+    --------------------------------------------------------
+    1. url ---> onion link
+    2. source_name ---> name of the source where the link was found
+    3. source_url ---> url of the source where the link was found
+    4. visited ---> boolean indicating whether the link was visited or not
+    5. keyword_searched ---> keyword searched on search engine
+    6. date_searched ---> date the link was saved on the database
     """
     url = models.URLField(primary_key=True)
     source_name = models.CharField(max_length=100)
     source_url = models.URLField()
     visited = models.BooleanField()
-    keyword_searched = models.CharField(max_length=20)
+    keyword_searched = models.CharField(max_length=20, default=None, null=True)
     date_searched = models.DateTimeField(auto_now=True)
 
     # def save(self, *args, **kwargs):
@@ -25,7 +34,6 @@ class OnionLinks(models.Model):
 
 
 class EnumeratedWebsites(models.Model):
-
     """
     Database model for enumerated websites
     This model is equivalent to Tables in MySql database
