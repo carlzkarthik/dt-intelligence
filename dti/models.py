@@ -2,6 +2,7 @@ import datetime
 
 from django.db import models
 from .utils.print_utils import *
+from django.db.models import Max
 
 
 class OnionLinks(models.Model):
@@ -64,6 +65,12 @@ class EnumeratedWebsites(models.Model):
     nav_ul_li_text = models.TextField(blank=True, null=True)
     last_enumerated = models.DateTimeField(null=False, auto_now_add=True)
     emails = models.TextField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if self.website_id is None:  # Only set the value for new records
+            max_id = EnumeratedWebsites.objects.aggregate(max_id=Max('website_id'))['max_id']
+            self.website_id = (max_id or 0) + 1
+        super().save(*args, **kwargs)
 
 
 class Threads(models.Model):

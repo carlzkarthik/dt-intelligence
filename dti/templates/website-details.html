@@ -51,10 +51,17 @@
         .btn-back:hover {
             background-color: #0056b3;
         }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
     </style>
 
     <div class="container-fluid">
-
         <!-- Main Content -->
         <div class="col-md-9 main-content">
             <div class="card">
@@ -63,19 +70,108 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="website-name">URL:</label>
-                        <input type="text" id="website-name" class="form-control" readonly value="{{ website.url }}">
+                        <label for="website-id">Website ID:</label>
+                        <input type="text" id="website-id" class="form-control" readonly value="{{ website.website_id }}">
                     </div>
                     <div class="form-group">
-                        <label for="website-url">Title:</label>
-                        <input type="text" id="website-url" class="form-control" readonly
-                               value="{{ website.title }}">
+                        <label for="website-url">URL:</label>
+                        <input type="text" id="website-url" class="form-control" readonly value="{{ website.url }}">
                     </div>
                     <div class="form-group">
-                        <label for="description">Navigation Links:</label>
-                        <textarea id="description" class="form-control" rows="5" readonly>
-                            website.nav_ul_li
-                        </textarea>
+                        <label for="website-title">Title:</label>
+                        <input type="text" id="website-title" class="form-control" readonly value="{{ website.title }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="a-text">Anchor Text:</label>
+                        <textarea id="a-text" class="form-control" rows="2" readonly>{{ website.a_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="a-href-text">Anchor Href Text:</label>
+                        <textarea id="a-href-text" class="form-control" rows="2" readonly>{{ website.a_href_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="img-src-text">Image Src Text:</label>
+                        <textarea id="img-src-text" class="form-control" rows="2" readonly>{{ website.img_src_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="img-alt-text">Image Alt Text:</label>
+                        <textarea id="img-alt-text" class="form-control" rows="2" readonly>{{ website.img_alt_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="h1-text">H1 Text:</label>
+                        <textarea id="h1-text" class="form-control" rows="2" readonly>{{ website.h1_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="h2-text">H2 Text:</label>
+                        <textarea id="h2-text" class="form-control" rows="2" readonly>{{ website.h2_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="h3-text">H3 Text:</label>
+                        <textarea id="h3-text" class="form-control" rows="2" readonly>{{ website.h3_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="h4-text">H4 Text:</label>
+                        <textarea id="h4-text" class="form-control" rows="2" readonly>{{ website.h4_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="h5-text">H5 Text:</label>
+                        <textarea id="h5-text" class="form-control" rows="2" readonly>{{ website.h5_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="h6-text">H6 Text:</label>
+                        <textarea id="h6-text" class="form-control" rows="2" readonly>{{ website.h6_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="div-text">Div Text:</label>
+                        <textarea id="div-text" class="form-control" rows="2" readonly>{{ website.div_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="p-text">Paragraph Text:</label>
+                        <textarea id="p-text" class="form-control" rows="2" readonly>{{ website.p_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="span-text">Span Text:</label>
+                        <textarea id="span-text" class="form-control" rows="2" readonly>{{ website.span_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="b-text">Bold Text:</label>
+                        <textarea id="b-text" class="form-control" rows="2" readonly>{{ website.b_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="strong-text">Strong Text:</label>
+                        <textarea id="strong-text" class="form-control" rows="2" readonly>{{ website.strong_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="cite-text">Cite Text:</label>
+                        <textarea id="cite-text" class="form-control" rows="2" readonly>{{ website.cite_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="blockquote-text">Blockquote Text:</label>
+                        <textarea id="blockquote-text" class="form-control" rows="2" readonly>{{ website.blockquote_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="ul-text">Unordered List Text:</label>
+                        <textarea id="ul-text" class="form-control" rows="2" readonly>{{ website.ul_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="ol-text">Ordered List Text:</label>
+                        <textarea id="ol-text" class="form-control" rows="2" readonly>{{ website.ol_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="li-text">List Item Text:</label>
+                        <textarea id="li-text" class="form-control" rows="2" readonly>{{ website.li_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="nav-ul-li-text">Navigation Links:</label>
+                        <textarea id="nav-ul-li-text" class="form-control" rows="2" readonly>{{ website.nav_ul_li_text }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-enumerated">Last Enumerated:</label>
+                        <input type="text" id="last-enumerated" class="form-control" readonly value="{{ website.last_enumerated }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="emails">Emails:</label>
+                        <textarea id="emails" class="form-control" rows="2" readonly>{{ website.emails }}</textarea>
                     </div>
                     <button class="btn btn-back" onclick="goBack()">Back</button>
                 </div>
