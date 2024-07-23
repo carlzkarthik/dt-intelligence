@@ -51,6 +51,7 @@ def onion_links(request):
     paginator = Paginator(data, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    print(page_obj.paginator.page_range)
     return render(request, 'onion-links.html', {'page_obj': page_obj})
 
 
