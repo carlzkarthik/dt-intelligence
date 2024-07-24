@@ -17,10 +17,11 @@ class OnniForum():
         self.onni_forum_url = "http://onnii6niq53gv3rvjpi7z5axkasurk2x5w5lwliep4qyeb2azagxn4qd.onion/member.php?action=login"
         self.onni_forum_database_url = "http://onnii6niq53gv3rvjpi7z5axkasurk2x5w5lwliep4qyeb2azagxn4qd.onion/forum-7.html"
 
-    def enumerate(self, driver):
+    def enumerate(self):
+        driver = self.login()
         page = 1
         thread_urls = []
-        while page < 13:
+        while page < 20:
             driver.get(
                 f"http://onnii6niq53gv3rvjpi7z5axkasurk2x5w5lwliep4qyeb2azagxn4qd.onion/forum-7-page-{page}.html")
             html = driver.page_source
@@ -104,11 +105,12 @@ class BreachForum:
         self.thread_base_url = "http://breached26tezcofqla4adzyn22notfqwcac7gpbrleg4usehljwkgqd.onion/Thread-"
         self.breach_forum_database_url = "http://breached26tezcofqla4adzyn22notfqwcac7gpbrleg4usehljwkgqd.onion/Forum-Databases?page=1"
 
-    def enumerate(self, driver):
+    def enumerate(self):
+        driver = self.login()
         page = 1
         thread_urls = []
 
-        while page < 20:
+        while page < 25:
             driver.get(
                 f"http://breached26tezcofqla4adzyn22notfqwcac7gpbrleg4usehljwkgqd.onion/Forum-Databases?page={page}")
             html = driver.page_source
