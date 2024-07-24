@@ -115,8 +115,12 @@ def unvisited_thread_enum(request):
     View Function to run thread enumeration engine on unvisited thread
     """
     if request.method == 'POST':
-        status = thread_enumerate()
-        return JsonResponse({'result': status})
+        breachforum = request.POST.get('breachforum') == 'true'
+
+        onniforum = OnniForum()
+        driver = onniforum.login()
+        onniforum.enumerate(driver)
+        return JsonResponse({'result': 'Success'})
 
 
 def threat_search(request):
@@ -144,18 +148,6 @@ def darkweb_users(request):
     users = DarkwebUsers.objects.all()
     context = {'darkweb_users': users}
     return render(request, 'darkweb-users.html', context=context)
-
-
-def test_page(request):
-    if request.method == 'POST':
-        form = UserEnumerationForm(request.POST)
-        enumerate_user()
-
-    else:
-        form = UserEnumerationForm()
-
-    context = {'form': form}
-    return render(request, 'test-page.html', context=context)
 
 
 def crypto_transaction_enumeration(request):
@@ -198,3 +190,9 @@ def enumerate_user(request):
     else:
         print_error("Error in enumerate_user")
         return JsonResponse({'result': False})
+
+
+def test_page(request):
+
+    context = {}
+    return render(request, 'test-page.html', context=context)

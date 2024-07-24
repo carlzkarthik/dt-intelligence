@@ -98,6 +98,14 @@ class ThreadComments(models.Model):
     comment_date = models.DateTimeField(blank=True, null=True)
 
 
+class ScraperState(models.Model):
+    forum_name = models.CharField(max_length=100, unique=True)
+    last_page_number = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.forum_name} - Page {self.last_page_number}"
+
+
 class DarkwebUsers(models.Model):
     """
     Database model for dark web users

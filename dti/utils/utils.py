@@ -7,6 +7,8 @@ from requests_tor import RequestsTor
 from .crypto_transaction import *
 from ..models import OnionLinks
 
+from datetime import datetime, timedelta
+
 
 def connect_to_tor():
     """
@@ -51,6 +53,7 @@ def get_web_content_selenium(url):
     options = Options()
     options.proxy = proxy
     options.binary_location = "/home/dimitri/Downloads/tor-browser/Browser/firefox"
+    # options.add_argument('--headless')
     # options.binary_location = '/path/to/normal/firefox'  # works
     driver = Firefox(options=options)  # use path to standard `Firefox`
 
@@ -58,8 +61,8 @@ def get_web_content_selenium(url):
         driver.get(url)
         contents = driver.page_source
         driver.quit()
-    except:
-        print_error(f"Error While Enumerating {url}")
+    except Exception as e:
+        print_error(f"Error While Enumerating {url}\n{e}")
         driver.close()
         return -1
 
@@ -128,3 +131,46 @@ def enumerate_crypto_address(address):
     print(address)
     bc = Blockchain()
     bc.get_transaction(address)
+
+
+from datetime import datetime, timedelta
+import re
+
+
+def convert_time_string(time_string):
+    # Strip any leading or trailing whitespace
+    time_string = time_string.strip()
+
+    # Regular expression to match absolute date time format
+    absolute_time_pattern = re.compile(r'\d{2}-\d{2}-\d{4}, \d{2}:\d{2} [AP]M')
+
+    if absolute_time_pattern.match(time_string):
+        # Handle absolute date time format
+        try:
+            date_object = datetime.strptime(time_string, "%m-%d-%Y, %I:%M %p")
+            return date_object
+        except ValueError as e:
+            print(f"[ ERROR ] {e}")
+            return None
+    else:
+        # Handle relative time format
+        now = datetime.now()
+        parts = time_string.split()
+        number = int(parts[0])
+        unit = parts[1]
+
+        if "hour" in unit:
+            delta = timedelta(hours=number)
+        elif "minute" in unit:
+            delta = timedelta(minutes=number)
+        elif "second" in unit:
+            delta = timedelta(seconds=number)
+        elif "day" in unit:
+            delta = timedelta(days=number)
+        else:
+            raise ValueError("Unknown time unit")
+
+        # Subtract the delta from the current time
+        return now - delta
+
+

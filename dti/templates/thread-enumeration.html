@@ -24,24 +24,38 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
-    <button id="run-engine" class="btn btn-outline-danger">Run Thread Enumeration on All Unvisited Threads
-    </button>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="breachforum" name="breachforum">
+        <label class="form-check-label" for="breachforum">BreachForum</label>
+    </div>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="onniforum" name="onniforum">
+        <label class="form-check-label" for="onniforum">OnniForum</label>
+    </div>
+
+    <button id="run-engine" class="btn btn-outline-danger">Run Thread Enumeration on Selected Forums</button>
 
     <h3 class="status">
         Thread Enumeration Started
     </h3>
 
-
     <script>
         $(document).ready(function () {
             $('#run-engine').click(function () {
-                status_message = $(".status")
+                status_message = $(".status");
+                const breachforum = $('#breachforum').is(':checked');
+                const onniforum = $('#onniforum').is(':checked');
+
                 $.ajax({
                     url: 'unvisited-thread-enum',
                     type: 'POST',
+                    data: {
+                        breachforum: breachforum,
+                        onniforum: onniforum
+                    },
                     beforeSend: function (xhr, settings) {
                         $(".status").css("visibility", "visible");
-                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}")
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
                     },
                     success: function (data) {
                         $(".status").text("Thread Enumeration Complete");
@@ -49,9 +63,8 @@
                     error: function (xhr, status, error) {
                         console.error(xhr.responseText);
                     }
-                })
-            })
-        })
+                });
+            });
+        });
     </script>
 {% endblock %}
-
