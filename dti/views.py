@@ -115,11 +115,14 @@ def unvisited_thread_enum(request):
     View Function to run thread enumeration engine on unvisited thread
     """
     if request.method == 'POST':
-        breachforum = request.POST.get('breachforum') == 'true'
 
         onniforum = OnniForum()
-        driver = onniforum.login()
-        onniforum.enumerate(driver)
+        # driver = onniforum.login()
+        # onniforum.enumerate(driver)
+
+        breachforum = BreachForum()
+        driver = breachforum.login()
+        breachforum.enumerate(driver)
         return JsonResponse({'result': 'Success'})
 
 

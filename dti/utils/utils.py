@@ -174,3 +174,25 @@ def convert_time_string(time_string):
         return now - delta
 
 
+def convert_date_time(date_str):
+    try:
+        # Define the format for the full date string
+        full_date_format = "%A %B %d, %Y at %I:%M %p"
+
+        # Try to parse the full date string
+        date_time = datetime.strptime(date_str, full_date_format)
+        return date_time
+    except ValueError:
+        # If parsing fails, check for "x hours ago" or "x minutes ago" pattern
+        match = re.match(r"(\d+) (hours|minutes) ago", date_str)
+        if match:
+            amount, unit = match.groups()
+            amount = int(amount)
+            now = datetime.now()
+            if unit == "hours":
+                return now - timedelta(hours=amount)
+            elif unit == "minutes":
+                return now - timedelta(minutes=amount)
+
+    # If no patterns match, return None or raise an error
+    return None

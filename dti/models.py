@@ -84,6 +84,7 @@ class Threads(models.Model):
     thread_author = models.TextField(blank=True, null=True)
     thread_published = models.DateTimeField(blank=True, null=True)
     enumerated = models.BooleanField(default=False)
+    thread_source = models.CharField(blank=True, null=True, max_length=100)
 
 
 class ThreadComments(models.Model):
