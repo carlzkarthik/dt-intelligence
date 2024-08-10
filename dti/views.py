@@ -1,3 +1,5 @@
+import multiprocessing
+
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import loader
@@ -116,14 +118,27 @@ def unvisited_thread_enum(request):
     """
     if request.method == 'POST':
 
-        onniforum = OnniForum()
-        # driver = onniforum.login()
-        # onniforum.enumerate(driver)
-
+        bf = request.POST.get('breachforum')
+        of = request.POST.get('onniforum')
         breachforum = BreachForum()
-        driver = breachforum.login()
-        breachforum.enumerate(driver)
-        return JsonResponse({'result': 'Success'})
+        onniforum = OnniForum()
+
+        processes = []
+
+        if bf:
+            p1 = threading.Thread(target=breachforum.enumerate)
+            processes.append(p1)
+            p1.start()
+
+        if of:
+            p2 = threading.Thread(target=onniforum.enumerate)
+            processes.append(p2)
+            p2.start()
+
+        for p in processes:
+            p.join()
+
+        return JsonResponse({'status': 'Thread Enumeration Complete'})
 
 
 def threat_search(request):
@@ -196,6 +211,5 @@ def enumerate_user(request):
 
 
 def test_page(request):
-
     context = {}
     return render(request, 'test-page.html', context=context)

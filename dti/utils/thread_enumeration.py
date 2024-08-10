@@ -17,10 +17,11 @@ class OnniForum():
         self.onni_forum_url = "http://onnii6niq53gv3rvjpi7z5axkasurk2x5w5lwliep4qyeb2azagxn4qd.onion/member.php?action=login"
         self.onni_forum_database_url = "http://onnii6niq53gv3rvjpi7z5axkasurk2x5w5lwliep4qyeb2azagxn4qd.onion/forum-7.html"
 
-    def enumerate(self, driver):
+    def enumerate(self):
+        driver = self.login()
         page = 1
         thread_urls = []
-        while page < 13:
+        while page < 40:
             driver.get(
                 f"http://onnii6niq53gv3rvjpi7z5axkasurk2x5w5lwliep4qyeb2azagxn4qd.onion/forum-7-page-{page}.html")
             html = driver.page_source
@@ -58,10 +59,7 @@ class OnniForum():
 
                         print_info(f"Successfully enumerated thread: [ {t} ]")
 
-                        if page > 1:
-                            scraper_state, created = ScraperState.objects.get_or_create(forum_name="OnniForum")
-                            scraper_state.last_page_number = page + 1
-                            scraper_state.save()
+
 
                     except Exception as e:
                         print_error(f"Error while enumerating thread: [ {t} ]")
@@ -69,6 +67,12 @@ class OnniForum():
 
                 else:
                     print_info(f"Thread already enumerated: [ {t} ]")
+
+            if page > 1:
+                scraper_state, created = ScraperState.objects.get_or_create(forum_name="OnniForum")
+                scraper_state.last_page_number = page + 1
+                scraper_state.save()
+
             page = ScraperState.objects.filter(forum_name='OnniForum')[0].last_page_number
 
     def login(self):
@@ -80,7 +84,7 @@ class OnniForum():
 
         options = Options()
         options.proxy = proxy
-        options.binary_location = "/home/dimitri/Downloads/tor-browser/Browser/firefox"
+        options.binary_location = "/home/hack/Downloads/tor-browser/Browser/firefox"
         # options.add_argument('--headless')
 
         driver = Firefox(options=options)
@@ -104,11 +108,12 @@ class BreachForum:
         self.thread_base_url = "http://breached26tezcofqla4adzyn22notfqwcac7gpbrleg4usehljwkgqd.onion/Thread-"
         self.breach_forum_database_url = "http://breached26tezcofqla4adzyn22notfqwcac7gpbrleg4usehljwkgqd.onion/Forum-Databases?page=1"
 
-    def enumerate(self, driver):
+    def enumerate(self):
+        driver = self.login()
         page = 1
         thread_urls = []
 
-        while page < 20:
+        while page < 60:
             driver.get(
                 f"http://breached26tezcofqla4adzyn22notfqwcac7gpbrleg4usehljwkgqd.onion/Forum-Databases?page={page}")
             html = driver.page_source
@@ -175,7 +180,7 @@ class BreachForum:
 
         options = Options()
         options.proxy = proxy
-        options.binary_location = "/home/dimitri/Downloads/tor-browser/Browser/firefox"
+        options.binary_location = "/home/hack/Downloads/tor-browser/Browser/firefox"
         # options.add_argument('--headless')
 
         driver = Firefox(options=options)

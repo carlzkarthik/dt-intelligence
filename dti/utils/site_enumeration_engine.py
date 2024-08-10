@@ -1,3 +1,5 @@
+import random
+
 from .utils import *
 from ..models import *
 from unicodedata import normalize
@@ -144,7 +146,7 @@ def enumerate_unvisited_websites():
     Enumerates unvisited websites
     Uses separate thread to each website url
     """
-    olinks = OnionLinks.objects.filter(visited=False)
+    olinks = OnionLinks.objects.filter(visited=False).order_by('?')
     link_count = olinks.__len__()
     thread_count = 10
     st = 0
